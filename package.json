@@ -1,0 +1,33 @@
+{
+  "name": "serverless-jwt-authorizer",
+  "version": "1.0.0",
+  "author": "delfrinando@gmail.com",
+  "description": "Example project demonstrating AWS Lambda and API Gateway authorizer",
+  "main": "src/handler.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.833.0",
+    "bcryptjs": "^2.4.3",
+    "dynamodb-toolbox": "^0.3.2",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.20",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.18.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "serverless-dynamodb-local": "^0.2.39",
+    "serverless-offline": "^6.8.0"
+  },
+  "keywords": [
+    "serverless",
+    "jwt"
+  ]
+}

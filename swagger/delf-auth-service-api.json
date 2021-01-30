@@ -1,0 +1,363 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Delfrinando Pranata - Auth Service"
+  },
+  "paths": {
+    "/api/login": {
+      "post": {
+        "tags": [ "Available APIs" ],
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login Model"
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "The request sent is incorrect/corrupted or the server could not understand it" },
+          "401": { "description": "The request requires user authentication" },
+          "404": { "description": "The request could not be completed because there is no resources found" },
+          "500": { "description": "The request could not be completed due to a conflict with the current state of the resource" },
+          "502": { "description": "The request could not be completed. Unknown causes." }
+        }
+      }
+    },
+    "/api/signup": {
+      "post": {
+        "tags": [ "Available APIs" ],
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Signup Model"
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "The request sent is incorrect/corrupted or the server could not understand it" },
+          "401": { "description": "The request requires user authentication" },
+          "404": { "description": "The request could not be completed because there is no resources found" },
+          "500": { "description": "The request could not be completed due to a conflict with the current state of the resource" },
+          "502": { "description": "The request could not be completed. Unknown causes." }
+        }
+      }
+    },
+    "/api/permissions": {
+      "post": {
+        "tags": [ "Available APIs" ],
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "security": [ "bearerAuth" ],
+        "parameters": [ {
+          "in": "header",
+          "name": "Authorization",
+          "required": true
+        },
+        {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Permissions Model"
+          }
+        }],
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "The request sent is incorrect/corrupted or the server could not understand it" },
+          "401": { "description": "The request requires user authentication" },
+          "404": { "description": "The request could not be completed because there is no resources found" },
+          "500": { "description": "The request could not be completed due to a conflict with the current state of the resource" },
+          "502": { "description": "The request could not be completed. Unknown causes." }
+        }
+      },
+      "get": {
+        "tags": [ "Available APIs" ],
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "security": [ "bearerAuth" ],
+        "parameters": [ {
+          "in": "header",
+          "name": "Authorization",
+          "required": true
+        }],
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "The request sent is incorrect/corrupted or the server could not understand it" },
+          "401": { "description": "The request requires user authentication" },
+          "404": { "description": "The request could not be completed because there is no resources found" },
+          "500": { "description": "The request could not be completed due to a conflict with the current state of the resource" },
+          "502": { "description": "The request could not be completed. Unknown causes." }
+        }
+      }
+    },
+    "/api/roles": {
+      "post": {
+        "tags": [ "Available APIs" ],
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "security": [ "bearerAuth" ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Roles Model"
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "The request sent is incorrect/corrupted or the server could not understand it" },
+          "401": { "description": "The request requires user authentication" },
+          "404": { "description": "The request could not be completed because there is no resources found" },
+          "500": { "description": "The request could not be completed due to a conflict with the current state of the resource" },
+          "502": { "description": "The request could not be completed. Unknown causes." }
+        }
+      },
+      "get": {
+        "tags": [ "Available APIs" ],
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "security": [ "bearerAuth" ],
+        "parameters": [{
+          "in": "header",
+          "name": "Authorization",
+          "required": true
+        }],
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "The request sent is incorrect/corrupted or the server could not understand it" },
+          "401": { "description": "The request requires user authentication" },
+          "404": { "description": "The request could not be completed because there is no resources found" },
+          "500": { "description": "The request could not be completed due to a conflict with the current state of the resource" },
+          "502": { "description": "The request could not be completed. Unknown causes." }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "tags": [ "Available APIs" ],
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "security": [ "bearerAuth" ],
+        "parameters": [ 
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "The request sent is incorrect/corrupted or the server could not understand it" },
+          "401": { "description": "The request requires user authentication" },
+          "404": { "description": "The request could not be completed because there is no resources found" },
+          "500": { "description": "The request could not be completed due to a conflict with the current state of the resource" },
+          "502": { "description": "The request could not be completed. Unknown causes." }
+        }
+      }
+    },
+    "/api/users/roles": {
+      "post": {
+        "tags": [ "Available APIs" ],
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "security": [ "bearerAuth" ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [ "id", "email", "roles" ],
+              "properties": {
+                "id": { "type": "string" },
+                "email": { "type": "string" },
+                "roles": { 
+                  "type": "array", 
+                  "items": { "type": "string" }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "The request sent is incorrect/corrupted or the server could not understand it" },
+          "401": { "description": "The request requires user authentication" },
+          "404": { "description": "The request could not be completed because there is no resources found" },
+          "500": { "description": "The request could not be completed due to a conflict with the current state of the resource" },
+          "502": { "description": "The request could not be completed. Unknown causes." }
+        }
+      },
+      "get": {
+        "tags": [ "Available APIs" ],
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "security": [ "bearerAuth" ],
+        "parameters": [{
+          "in": "header",
+          "name": "Authorization",
+          "required": true
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "The request sent is incorrect/corrupted or the server could not understand it" },
+          "401": { "description": "The request requires user authentication" },
+          "404": { "description": "The request could not be completed because there is no resources found" },
+          "500": { "description": "The request could not be completed due to a conflict with the current state of the resource" },
+          "502": { "description": "The request could not be completed. Unknown causes." }
+        }
+      }
+    },
+    "/api/users/permissions": {
+      "post": {
+        "tags": [ "Available APIs" ],
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "security": [ "bearerAuth" ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "id",
+                "email",
+                "permissions"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "roles": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "The request sent is incorrect/corrupted or the server could not understand it" },
+          "401": { "description": "The request requires user authentication" },
+          "404": { "description": "The request could not be completed because there is no resources found" },
+          "500": { "description": "The request could not be completed due to a conflict with the current state of the resource" },
+          "502": { "description": "The request could not be completed. Unknown causes." }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Login Model": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "example": "delfrinando@gmail.com",
+          "maxLength": 100
+        },
+        "username": {
+          "type": "string",
+          "example": "delfrinando",
+          "maxLength": 100
+        },
+        "password": {
+          "type": "string",
+          "example": "Secret123!",
+          "maxLength": 100
+        }
+      },
+      "oneOf": [ { "required": [ "email" ] }, { "required": [ "username" ] } ],
+      "required": [ "password" ]
+    },
+    "Signup Model": {
+      "type": "object",
+      "required": [
+        "email",
+        "username",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Permissions Model": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Roles Model": {
+      "type": "object",
+      "required": [
+        "name",
+        "roles"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

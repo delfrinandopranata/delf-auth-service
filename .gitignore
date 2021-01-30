@@ -1,0 +1,16 @@
+
+# 
+#  serverless.yml
+# 
+#  Unauthorized copying of this file, via any medium is strictly prohibited
+#  Proprietary and confidential
+# 
+#  2021 @ Delfrinando Pranata (delfrinando@gmail.com)
+# 
+
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
