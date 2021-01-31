@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*
  * src//handler.js
  *
@@ -16,8 +17,9 @@ const { response } = require('./helper/response');
 
 module.exports.whoami = async (event) => {
   try {
-    const tokenExtracted = await Security.getUserFromToken(event.headers.Authorization);
-    return response(200, tokenExtracted);
+    const userToken = await User.getUserFromToken(event.headers.Authorization);
+    if (userToken && userToken.id) return response(200, userToken);
+    return response(404);
   } catch (error) {
     return response(500, error);
   }
@@ -27,21 +29,13 @@ module.exports.login = async (event) => {
   const login = JSON.parse(event.body);
   let user;
   try {
-    if (login.email && Security.isValidEmail(login.email)) {
-      user = await User.getByEmail(login.email);
-    }
-    if (!user && login.username) {
-      user = await User.getByUsername(login.username);
-    }
+    if (login.email && Security.isValidEmail(login.email)) user = await User.getByEmail(login.email);
+    if (!user && login.username) user = await User.getByUsername(login.username);
+    if (!user) return response(404);
 
-    if (user) {
-      const matched = await Security.checkPassword(login.password, user.password);
-      if (matched) {
-        return response(200, { token: Security.signToken(user), expiresIn: 3600 });
-      }
-      return response(400, { message: 'Password incorrect!' });
-    }
-    return response(404);
+    const matched = await Security.checkPassword(login.password, user.password);
+    if (matched) return response(200, { token: Security.signToken(user), expiresIn: 3600 });
+    return response(400, { message: 'Password incorrect!' });
   } catch (error) {
     return response(500, error);
   }
@@ -69,7 +63,7 @@ module.exports.signup = async (event) => {
 module.exports.users = async (event) => {
   try {
     const id = event.pathParameters && event.pathParameters.id;
-    const userToken = await Security.getUserFromToken(event.headers.Authorization);
+    const userToken = await User.getUserFromToken(event.headers.Authorization);
     if ((id && userToken.id) && (id !== userToken.id)) return response(401);
 
     const user = await User.getById(userToken.id);
@@ -84,13 +78,16 @@ module.exports.users = async (event) => {
 module.exports.permissions = async (event) => {
   const { httpMethod } = event;
   try {
-    if (httpMethod === 'POST' && event.body) {
-      const permissions = JSON.parse(event.body);
-      await Permission.create(permissions);
+    const userToken = await User.getUserFromToken(event.headers.Authorization);
+    if (userToken && userToken.id) {
+      if (httpMethod === 'POST' && event.body) {
+        const permissions = JSON.parse(event.body);
+        await Permission.create(permissions);
+      }
+      const permissions = await Permission.getAll();
+      return response(200, permissions);
     }
-
-    const permissions = await Permission.getAll();
-    return response(200, permissions);
+    return response(401);
   } catch (error) {
     return response(500, error);
   }
@@ -99,42 +96,64 @@ module.exports.permissions = async (event) => {
 module.exports.roles = async (event) => {
   const { httpMethod } = event;
   try {
-    if (httpMethod === 'POST' && event.body) {
-      const roles = JSON.parse(event.body);
-      await Role.create(roles);
+    const userToken = await User.getUserFromToken(event.headers.Authorization);
+    if (userToken && userToken.id) {
+      if (httpMethod === 'POST' && event.body) {
+        const roles = JSON.parse(event.body);
+        await Role.create(roles);
+      }
+      const roles = await Role.getAll();
+      return response(200, roles);
     }
-
-    const roles = await Role.getAll();
-    return response(200, roles);
+    return response(401);
   } catch (error) {
     return response(500, error);
   }
 };
 
 module.exports.assignRole = async (event) => {
-  const data = JSON.parse(event.body);
+  const { httpMethod } = event;
   try {
-    const res = await User.assignRole(data);
-    return response(200, res);
+    const userToken = await User.getUserFromToken(event.headers.Authorization);
+    if (userToken && userToken.id) {
+      if (httpMethod === 'POST' && event.body) {
+        const data = JSON.parse(event.body);
+        const assignRole = {
+          id: userToken.id,
+          email: userToken.email,
+          roles: data.roles,
+        };
+        const res = await User.assignRole(assignRole);
+        return response(200, res);
+      }
+      const user = await User.getById(userToken.id);
+      if (user) return response(200, user);
+    }
+    return response(401);
   } catch (error) {
     return response(500, error);
   }
 };
 
 module.exports.getPermissions = async (event) => {
+  const { httpMethod } = event;
   try {
-    const data = JSON.parse(event.body);
-    const res = await User.getPermissions(data);
-    return response(200, res);
-  } catch (error) {
-    return response(500, error);
-  }
-};
-
-module.exports.allUsers = async () => {
-  try {
-    const user = await User.getAll();
-    return response(200, user);
+    const userToken = await User.getUserFromToken(event.headers.Authorization);
+    if (userToken && userToken.id) {
+      if (httpMethod === 'POST' && event.body) {
+        const data = JSON.parse(event.body);
+        const checkPermissions = {
+          id: userToken.id,
+          email: userToken.email,
+          permissions: data.permissions,
+        };
+        const res = await User.getPermissions(checkPermissions);
+        return response(200, res);
+      }
+      const user = await User.getById(userToken.id);
+      if (user) return response(200, user);
+    }
+    return response(401);
   } catch (error) {
     return response(500, error);
   }

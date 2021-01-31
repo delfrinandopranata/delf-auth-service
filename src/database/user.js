@@ -8,6 +8,7 @@
  * */
 
 const { User, UsersTable } = require('./config');
+const { verify, SECRET } = require('../helper/security');
 
 const create = async (args) => {
   await User.put(args);
@@ -54,7 +55,16 @@ const getPermissions = async (args) => {
   return { permissons: { allow: {}, deny: {} } };
 };
 
+const getUserFromToken = (token) => {
+  const user = verify(token);
+  return {
+    id: user.id,
+    email: user.email,
+  };
+};
+
 module.exports = {
+  getUserFromToken,
   create,
   getAll,
   getByEmail,

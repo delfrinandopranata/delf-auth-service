@@ -9,18 +9,26 @@
 # 
 
 service: delf-auth-service
-
 provider:
   name: aws
   runtime: nodejs12.x
   region: ap-southeast-1
-  apiName: ${opt:stage, self:provider.stage, 'dev'}
-  lambdaHashingVersion: 20201221
+  stage: dev
+  lambdaHashingVersion: "20201221"
+  apiGateway:
+    shouldStartNameWithService: true
+  deploymentBucket:
+    name: serverless-code-deployment
   environment:
     REGION: ${self:provider.region}
     USERS_TABLE: ${env:USERS_TABLE}
     ROLES_TABLE: ${env:ROLES_TABLE}
     PERMISSIONS_TABLE: ${env:PERMISSIONS_TABLE}
+    JWT_SECRET: ${env:JWT_SECRET}
+    AWS_ID: ${env:AWS_ID}
+  memorySize: 256
+  timeout: 600
+  logRetentionInDays: 1
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -28,25 +36,13 @@ provider:
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
       Resource: "*"
 
-custom:
-  dynamodb:
-    stages:
-      - local
-      - dev
-    start:
-      port: 8000
-      inMemory: true
-      heapInitial: 200m
-      heapMax: 1g
-      migrate: true
-      seed: true
-      convertEmptyValues: true
-
 functions:
-  GetSwagger:
-    handler: swagger/index.handler
+  getApiDoc:
+    handler: apidoc/index.handler
     events:
       - http:
           path: /api/documentation
@@ -153,6 +149,13 @@ functions:
           authorizer:
             name: verifytoken
             identitySource: method.request.header.Authorization
+      - http:
+          path: api/users/roles
+          method: get
+          cors: true
+          authorizer:
+            name: verifytoken
+            identitySource: method.request.header.Authorization
             resultTtlInSeconds: 3600
 
   getPermissions:
@@ -166,14 +169,14 @@ functions:
             name: verifytoken
             identitySource: method.request.header.Authorization
             resultTtlInSeconds: 3600
-
-  allUsers:
-    handler: src/handler.allUsers
-    events:
       - http:
-          path: api/all/users
+          path: api/users/permissions
           method: get
           cors: true
+          authorizer:
+            name: verifytoken
+            identitySource: method.request.header.Authorization
+            resultTtlInSeconds: 3600
 
 resources:
   Resources:
@@ -271,6 +274,39 @@ resources:
             ProvisionedThroughput:
               ReadCapacityUnits: 1
               WriteCapacityUnits: 1
+
+  Outputs:
+    UsersTableArn:
+      Description: The ARN for the User's Table
+      Value:
+        'Fn::GetAtt': [usersTable, Arn]
+      Export:
+        Name: ${self:service}:UsersTableArn
+    RolesTableArn:
+      Description: The ARN for the Role's Table
+      Value:
+        'Fn::GetAtt': [rolesTable, Arn]
+      Export:
+        Name: ${self:service}:RolesTableArn
+    PermissionnsTableArn:
+      Description: The ARN for the Permission's Table
+      Value:
+        'Fn::GetAtt': [permissionsTable, Arn]
+      Export:
+        Name: ${self:service}:PermissionnsTableArn
+
+custom:
+  dynamodb:
+    stages:
+      - dev
+    start:
+      port: 8000
+      inMemory: true
+      heapInitial: 200m
+      heapMax: 1g
+      migrate: true
+      seed: true
+      convertEmptyValues: true
 
 plugins:
   - serverless-dynamodb-local

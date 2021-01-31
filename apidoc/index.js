@@ -7,33 +7,24 @@
  * 2021 @ Delfrinando Pranata (delfrinando@gmail.com)
  * */
 
-const _ = require('lodash');
-
+const lodash = require('lodash');
 const { generateHtml } = require('./template');
 const schema = require('./delf-auth-service-api.json');
 
-const stage = process.env.ENV;
-
-function getApiSpec(host) {
+const getApiSpec = (host) => {
   if (host.includes('localhost')) {
     return {
-      ...schema,
-      host,
-      basePath: '/dev',
-      schemes: ['http'],
+      ...schema, host, basePath: '/dev', schemes: ['http'],
     };
   }
 
   return {
-    ...schema,
-    host,
-    basePath: `/${stage}`,
-    schemes: ['https'],
+    ...schema, host, basePath: '/dev', schemes: ['https'],
   };
-}
+};
 
-function handler(event, _context, callback) {
-  const host = _.get(event, 'headers.host') || _.get(event, 'headers.Host');
+const handler = (event, _, callback) => {
+  const host = lodash.get(event, 'headers.host') || lodash.get(event, 'headers.Host');
   const spec = getApiSpec(host);
   const body = generateHtml(spec);
 
@@ -44,6 +35,6 @@ function handler(event, _context, callback) {
   };
 
   callback(null, response);
-}
+};
 
 module.exports = { handler };

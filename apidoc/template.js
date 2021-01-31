@@ -7,7 +7,7 @@
  * 2021 @ Delfrinando Pranata (delfrinando@gmail.com)
  * */
 
-const TITLE = 'Job Alerts API Documentation';
+const TITLE = 'API Documentation - Auth Service by Delfrinando Pranata';
 const UNPKG_BASE_URL = '//unpkg.com/swagger-ui-dist@3.24.2';
 
 function generateHtml(spec) {
@@ -17,7 +17,6 @@ function generateHtml(spec) {
     <!-- HTML for static distribution bundle build -->
     <!DOCTYPE html>
     <html lang="en">
-
     <head>
       <meta charset="UTF-8">
       <title>${TITLE}</title>
@@ -25,22 +24,13 @@ function generateHtml(spec) {
       <link rel="icon" type="image/png" href="${UNPKG_BASE_URL}/favicon-32x32.png" sizes="32x32" />
       <link rel="icon" type="image/png" href="${UNPKG_BASE_URL}/favicon-16x16.png" sizes="16x16" />
       <style>
-        html {
-          box-sizing: border-box;
-          overflow: -moz-scrollbars-vertical;
-          overflow-y: scroll;
-        }
+        html { box-sizing: border-box; overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
 
         *,
         *:before,
-        *:after {
-          box-sizing: inherit;
-        }
+        *:after { box-sizing: inherit; }
 
-        body {
-          margin: 0;
-          background: #fafafa;
-        }
+        body { margin: 0; background: #fafafa; }
       </style>
     </head>
 

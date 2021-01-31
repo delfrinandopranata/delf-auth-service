@@ -7,40 +7,47 @@
  * 2021 @ Delfrinando Pranata (delfrinando@gmail.com)
  * */
 
-const { sign, verify } = require('jsonwebtoken');
+const Jwt = require('jsonwebtoken');
 const { compare } = require('bcryptjs');
 
-const SECRET = process.env.JWT_SECRET || 'DELFRINANDOPRANATA';
+const SECRET = Buffer.from(process.env.JWT_SECRET || 'DELFRINANDOPRANATA', 'base64');
 
 const signToken = (user) => {
-  const data = { id: user.id, roles: user.roles || [] };
-  const secret = Buffer.from(SECRET, 'base64');
-  return sign(data, secret, { expiresIn: 3600 });
+  const data = {
+    id: user.id,
+    email: user.email,
+    roles: user.roles || [],
+  };
+  return Jwt.sign(data, SECRET, { expiresIn: 3600 });
+};
+
+const verify = (token) => {
+  const decoded = Jwt.verify(token.replace('Bearer ', ''), SECRET);
+  return decoded;
 };
 
 const verifyToken = (event, _, callback) => {
-  const token = event.authorizationToken.replace('Bearer ', '');
   const { methodArn } = event;
-
+  const token = event.authorizationToken;
   if (!token || !methodArn) return callback(null, 'Unauthorized');
-  const secret = Buffer.from(SECRET, 'base64');
-  const decoded = verify(token, secret);
-
-  let permission = 'Deny';
-  if (decoded && decoded.id) permission = 'Allow';
+  const decoded = verify(token);
 
   const policy = {
     principalId: decoded.id,
-    policyDocument: { Version: '2012-10-17', Statement: [{ Action: 'execute-api:Invoke', Effect: permission, Resource: methodArn }] },
+    policyDocument: {
+      Version: '2012-10-17',
+      Statement: [{
+        Action: 'execute-api:Invoke',
+        Effect: decoded && decoded.id ? 'Allow' : 'Deny',
+        Resource: 'arn:aws:execute-api:*:*:*',
+      }],
+    },
   };
 
   return callback(null, policy);
 };
 
-const getUserFromToken = (token) => {
-  const secret = Buffer.from(SECRET, 'base64');
-  return verify(token.replace('Bearer ', ''), secret);
-};
+const getUserFromToken = (token) => verify(token.replace('Bearer ', ''), SECRET);
 
 const isValidEmail = (email) => {
   const emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
@@ -63,6 +70,7 @@ const isValidEmail = (email) => {
 const checkPassword = (loginPassword, userPassword) => compare(loginPassword, userPassword);
 
 module.exports = {
+  verify,
   verifyToken,
   signToken,
   getUserFromToken,

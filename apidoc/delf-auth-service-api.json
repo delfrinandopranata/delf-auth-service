@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Delfrinando Pranata - Auth Service"
+    "title": "API Documentation - Auth Service by Delfrinando Pranata"
   },
   "paths": {
     "/api/login": {
@@ -60,7 +60,6 @@
         "tags": [ "Available APIs" ],
         "consumes": [ "application/json" ],
         "produces": [ "application/json" ],
-        "security": [ "bearerAuth" ],
         "parameters": [ {
           "in": "header",
           "name": "Authorization",
@@ -87,7 +86,6 @@
         "tags": [ "Available APIs" ],
         "consumes": [ "application/json" ],
         "produces": [ "application/json" ],
-        "security": [ "bearerAuth" ],
         "parameters": [ {
           "in": "header",
           "name": "Authorization",
@@ -108,7 +106,6 @@
         "tags": [ "Available APIs" ],
         "consumes": [ "application/json" ],
         "produces": [ "application/json" ],
-        "security": [ "bearerAuth" ],
         "parameters": [
           {
             "in": "header",
@@ -137,7 +134,6 @@
         "tags": [ "Available APIs" ],
         "consumes": [ "application/json" ],
         "produces": [ "application/json" ],
-        "security": [ "bearerAuth" ],
         "parameters": [{
           "in": "header",
           "name": "Authorization",
@@ -158,7 +154,6 @@
         "tags": [ "Available APIs" ],
         "consumes": [ "application/json" ],
         "produces": [ "application/json" ],
-        "security": [ "bearerAuth" ],
         "parameters": [ 
           {
             "in": "header",
@@ -181,7 +176,6 @@
         "tags": [ "Available APIs" ],
         "consumes": [ "application/json" ],
         "produces": [ "application/json" ],
-        "security": [ "bearerAuth" ],
         "parameters": [
           {
             "in": "header",
@@ -194,9 +188,8 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [ "id", "email", "roles" ],
+              "required": [ "email", "roles" ],
               "properties": {
-                "id": { "type": "string" },
                 "email": { "type": "string" },
                 "roles": { 
                   "type": "array", 
@@ -219,7 +212,6 @@
         "tags": [ "Available APIs" ],
         "consumes": [ "application/json" ],
         "produces": [ "application/json" ],
-        "security": [ "bearerAuth" ],
         "parameters": [{
           "in": "header",
           "name": "Authorization",
@@ -241,7 +233,6 @@
         "tags": [ "Available APIs" ],
         "consumes": [ "application/json" ],
         "produces": [ "application/json" ],
-        "security": [ "bearerAuth" ],
         "parameters": [
           {
             "in": "header",
@@ -255,18 +246,14 @@
             "schema": {
               "type": "object",
               "required": [
-                "id",
                 "email",
                 "permissions"
               ],
               "properties": {
-                "id": {
-                  "type": "string"
-                },
                 "email": {
                   "type": "string"
                 },
-                "roles": {
+                "permissions": {
                   "type": "array",
                   "items": {
                     "type": "string"
@@ -294,18 +281,15 @@
         "email": {
           "type": "string",
           "format": "email",
-          "example": "delfrinando@gmail.com",
-          "maxLength": 100
+          "example": "delfrinando@gmail.com"
         },
         "username": {
           "type": "string",
-          "example": "delfrinando",
-          "maxLength": 100
+          "example": "delfrinando"
         },
         "password": {
           "type": "string",
-          "example": "Secret123!",
-          "maxLength": 100
+          "example": "Secret123!"
         }
       },
       "oneOf": [ { "required": [ "email" ] }, { "required": [ "username" ] } ],
@@ -313,48 +297,46 @@
     },
     "Signup Model": {
       "type": "object",
-      "required": [
-        "email",
-        "username",
-        "password"
-      ],
+      "required": [ "email", "username", "password" ],
       "properties": {
-        "email": {
-          "type": "string"
+        "email": { 
+          "type": "string",
+          "format": "email",
+          "example": "delfrinando@gmail.com"
         },
         "username": {
-          "type": "string"
+          "type": "string",
+          "example": "delfrinando"
         },
         "password": {
-          "type": "string"
+          "type": "string",
+          "example": "Secret123!"
         }
       }
     },
     "Permissions Model": {
       "type": "object",
-      "required": [
-        "name"
-      ],
+      "required": [ "name" ],
       "properties": {
-        "name": {
-          "type": "string"
+        "name": { 
+          "type": "string",
+          "example": "product:allowaccess"
         }
       }
     },
     "Roles Model": {
       "type": "object",
-      "required": [
-        "name",
-        "roles"
-      ],
+      "required": [ "name", "permissions" ],
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "example": "productteam"
         },
-        "roles": {
+        "permissions": {
           "type": "array",
           "items": {
-            "type": "string"
+            "type": "string",
+            "example": "product:allowaccess"
           }
         }
       }

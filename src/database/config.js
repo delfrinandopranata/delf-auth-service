@@ -11,11 +11,19 @@ const { config, DynamoDB } = require('aws-sdk');
 const { Table, Entity } = require('dynamodb-toolbox');
 const { v4: uuidv4 } = require('uuid');
 
-const { USERS_TABLE, ROLES_TABLE, PERMISSIONS_TABLE } = process.env;
+const {
+  USERS_TABLE, ROLES_TABLE, PERMISSIONS_TABLE, REGION, IS_LOCAL,
+} = process.env;
+
+if (IS_LOCAL && IS_LOCAL === 'true') {
+  config.update({
+    region: 'localhost',
+    endpoint: 'http://localhost:8000',
+  });
+}
 
 config.update({
-  region: 'localhost',
-  endpoint: 'http://localhost:8000',
+  region: REGION,
 });
 
 const dynamoClient = new DynamoDB.DocumentClient();

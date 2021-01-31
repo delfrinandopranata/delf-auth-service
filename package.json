@@ -4,8 +4,7 @@
   "author": "delfrinando@gmail.com",
   "description": "Example project demonstrating AWS Lambda and API Gateway authorizer",
   "main": "src/handler.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/"
@@ -23,8 +22,8 @@
     "eslint": "^7.18.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
-    "serverless-dynamodb-local": "^0.2.39",
-    "serverless-offline": "^6.8.0"
+    "serverless-offline": "^6.8.0",
+    "serverless-dynamodb-local": "*"
   },
   "keywords": [
     "serverless",
