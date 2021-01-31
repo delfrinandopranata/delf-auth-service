@@ -3,10 +3,11 @@ README
 
 # Deployed to:
 
+You may test the API on here!
 https://ach1bxdas4.execute-api.ap-southeast-1.amazonaws.com/dev/api/documentation
 
 
-https://ach1bxdas4.execute-api.ap-southeast-1.amazonaws.com/dev/api/*/*/*
+https://ach1bxdas4.execute-api.ap-southeast-1.amazonaws.com/dev/api/*/*
 
 
 # Installation
