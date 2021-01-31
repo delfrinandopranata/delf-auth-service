@@ -63,13 +63,15 @@ Register & Login to get JWT Token:
     POST   http://localhost:3000/dev/api/login      
 
 JWT Token Required:
-    GET    http://localhost:3000/dev/api/users/{id}       
-    GET    http://localhost:3000/dev/api/users            
-    GET    http://localhost:3000/dev/api/permissions      
-    POST   http://localhost:3000/dev/api/permissions      
-    GET    http://localhost:3000/dev/api/roles            
-    POST   http://localhost:3000/dev/api/roles            
-    POST   http://localhost:3000/dev/api/users/roles      
-    POST   http://localhost:3000/dev/api/users/permissions    
+    GET - http://localhost:3000/dev/api/users/{id}
+    GET - http://localhost:3000/dev/api/users
+    GET - http://localhost:3000/dev/api/permissions
+    POST - http://localhost:3000/dev/api/permissions
+    GET - http://localhost:3000/dev/api/roles
+    POST - http://localhost:3000/dev/api/roles
+    POST - http://localhost:3000/dev/api/users/roles
+    GET - http://localhost:3000/dev/api/users/roles
+    POST - http://localhost:3000/dev/api/users/permissions
+    GET - http://localhost:3000/dev/api/users/permissions
 ```
 
