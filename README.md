@@ -1,7 +1,15 @@
 
 README
 
-Installation
+# Deployed to:
+
+https://ach1bxdas4.execute-api.ap-southeast-1.amazonaws.com/dev/api/documentation
+
+
+https://ach1bxdas4.execute-api.ap-southeast-1.amazonaws.com/dev/api/*/*/*
+
+
+# Installation
 
 Local Set Up
 In order to run this application on your own machine, you need to make sure you have installed this packages first.
@@ -14,16 +22,13 @@ If you have none of them, please help your self with it first, because this repo
 
 
 ## Local Set Up
-## Prerequisite
+### Prerequisite & Requirement
 - awscli => 1.16.220
 - node => v12.x
 - npm => 6.x or
 - yarn => 1.x
 
-### Requirement
-1. NodeJS
-2. NPM / YARN
-3. Serverless
+Make sure you install all the required tools. This is not a tutorial how to install them on your laptop.
 
 In order to run this application locally, you need to open 2 terminal. Both terminal will need to run this command to do initial setup and local ENV:
 To setup local ENV, you may run this command:
@@ -64,9 +69,6 @@ JWT Token Required:
     GET    http://localhost:3000/dev/api/roles            
     POST   http://localhost:3000/dev/api/roles            
     POST   http://localhost:3000/dev/api/users/roles      
-    POST   http://localhost:3000/dev/api/users/permissions
-    
-Useable API for Testing Purpose:
-    GET    http://localhost:3000/dev/api/all/users     
+    POST   http://localhost:3000/dev/api/users/permissions    
 ```
 
